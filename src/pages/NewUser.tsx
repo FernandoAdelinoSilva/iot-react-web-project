@@ -13,7 +13,7 @@ import { Checkbox } from '../components/Checkbox';
 import { getUserByEmail, addUser } from '../services/firebase/user.service';
 
 
-export function Home() {
+export function NewUser() {
 	const history = useHistory();
 	const { user, signInWithGoogle } = useAuth();
 

@@ -10,7 +10,7 @@ type User = {
 }
 
 type AuthContextType = {
-  user: User | undefined,
+  user: User,
   signInWithGoogle: () => Promise<void>;
 }
 
@@ -21,12 +21,11 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider(props: AuthContextProviderProps) {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User>({} as User);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        console.log(user);
         const { displayName, photoURL, uid, email} = user;
 
         if(!displayName || !photoURL || !email) {
@@ -51,6 +50,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const provider = new firebase.auth.GoogleAuthProvider();
 
     const result = await auth.signInWithPopup(provider);
+    console.log(result);
 
     if(result.user) {
       const { displayName, photoURL, uid, email} = result.user;
