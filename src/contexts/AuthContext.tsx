@@ -7,11 +7,13 @@ type User = {
   name: string;
   avatar: string;
   email: string;
+  signIn: boolean;
 }
 
 type AuthContextType = {
   user: User,
   signInWithGoogle: () => Promise<void>;
+  signOutWithGoogle: () => Promise<void>;
 }
 
 type AuthContextProviderProps = {
@@ -37,6 +39,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           name: displayName,
           avatar: photoURL,
           email: email,
+          signIn: true,
         })
       }
     })
@@ -48,9 +51,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
   async function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
-
     const result = await auth.signInWithPopup(provider);
-    console.log(result);
 
     if(result.user) {
       const { displayName, photoURL, uid, email} = result.user;
@@ -64,12 +65,27 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         name: displayName,
         avatar: photoURL,
         email: email,
+        signIn: true,
       })
     }
   }
+
+  async function signOutWithGoogle() {
+    await auth.signOut().then(function() {
+      setUser({
+        id: '',
+        name: '',
+        avatar: '',
+        email: '',
+        signIn: false,
+      })
+    }, function(error) {
+      throw new Error('Unable to LogOut the user Account.');
+    });
+  };
   
   return (
-    <AuthContext.Provider value={{user, signInWithGoogle }}>
+    <AuthContext.Provider value={{user, signInWithGoogle, signOutWithGoogle }}>
       {props.children}
     </AuthContext.Provider>
   )

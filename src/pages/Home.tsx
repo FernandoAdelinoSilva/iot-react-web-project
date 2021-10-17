@@ -29,7 +29,7 @@ export function Home() {
 	});
 
 	useEffect(() => {
-		if(!user.id)
+		if(!user.signIn)
 			return;
 
 		const getUser = async () => {
@@ -38,7 +38,7 @@ export function Home() {
 			if(firebaseUser.length > 0) {
 				history.push('/rooms/new');
 			} else {
-				console.log('User not Found on Database');
+				history.push('/user/new');
 			}
 		} 
 		getUser();
