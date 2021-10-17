@@ -1,5 +1,6 @@
 import { useHistory } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Button } from '../components/Button';
 
@@ -10,37 +11,38 @@ import lamp from '../assets/images/lamp.png';
 import logoImg from '../assets/images/logo3.jpeg';
 import '../styles/auth.scss';
 
+type FormValues = {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  address: string;
+  eulaAccepted: boolean;
+};
 
 export function NewUser() {
 	const history = useHistory();
 	const { user, signOutWithGoogle } = useAuth();
 
-	const [newUser, setNewUser] = useState({
-			firstName: '',
-			lastName: '',
-			phone: '',
-			email: '',
-			address: '',
-			eulaAccepted: false
-	});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormValues>();
+
+  const onSubmit: SubmitHandler<FormValues> = async newUser => {
+    console.log(newUser);
+    await addUser(newUser);
+    history.push('/rooms/new');
+  }
 
   useEffect(() => {
     if(user.signIn === false)
       history.push('/');
   }, [history, user]);
 
-	async function handleCreateUser() {
-    await addUser(newUser);
-    history.push('/rooms/new');
-	}
-
   async function handleLogOutUser() {
     await signOutWithGoogle();
-    //history.push('/');
-
-    //await addUser(newUser);
-    //history.push('/rooms/new');
-    
 	}
 
   return (
@@ -54,79 +56,56 @@ export function NewUser() {
           <div className="main-content">
             <img src={logoImg} alt="SmartHome" />
             <div className="separator">Create Your Account</div>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="display-side-by-side">
                 <div className="field-padding">
                   <label htmlFor="firstName"><strong>First Name</strong></label>
-                  <input 
-                    type="text" 
-                    name="firstName" 
+                  <input
+                    {...register("firstName", { required: "This is required" })}
                     id="firstName" 
-                    required
-                    value={newUser.firstName} 
-                    onChange={event => setNewUser({...newUser, firstName: event.target.value})}
                   />
                 </div>
                 <div className="space-between"></div>
                 <div className="field-padding">
                     <label htmlFor="lastName"><strong>Last Name</strong></label>
                     <input 
-                      type="text" 
-                      name="lastName" 
+                      {...register("lastName", { required: "This is required" })} 
                       id="lastName" 
-                      required
-                      value={newUser.lastName} 
-                      onChange={event => setNewUser({...newUser, lastName: event.target.value})} 
                     />
                 </div>
               </div>
               <div className="field-padding">
                 <label htmlFor="phoneNumber"><strong>Phone Number</strong></label>
                 <input 
-                  type="text" 
-                  name="phoneNumber" 
+                  {...register("phone", { required: "This is required" })}  
                   id="phoneNumber" 
-                  required
-                  value={newUser.phone} 
-                  onChange={event => setNewUser({...newUser, phone: event.target.value})} 
                 />
               </div>
               <div className="field-padding">
                 <label htmlFor="email"><strong>Email</strong></label>
                 <input 
-                  type="email" 
-                  name="email" 
-                  id="email" 
-                  required
-                  value={newUser.email} 
-                  onChange={event => setNewUser({...newUser, email: event.target.value})} 
+                  {...register("email", { required: "This is required" })} 
+                  id="email"  
                 />
               </div>
               <div className="field-padding">
                 <label htmlFor="address"><strong>Address</strong></label>
                 <input 
-                  type="text" 
-                  name="address" 
+                  {...register("address", { required: "This is required" })}
                   id="address" 
-                  required
-                  value={newUser.address} 
-                  onChange={event => setNewUser({...newUser, address: event.target.value})} 
                 />
               </div>
               <div>
-                
-              </div>
-              <div>
-                <Button onClick={handleCreateUser} type="submit">
+                <Button type="submit">
                   Create your Account
                 </Button>
               </div>
-              <div>
-                <Button onClick={handleLogOutUser} type="submit">
-                  Switch User
-                </Button>
-              </div>
             </form>
+            <div>
+              <Button onClick={handleLogOutUser} className="sign-out-btn">
+                Switch User
+              </Button>
+            </div>
           </div>
         </main>
       </div>
