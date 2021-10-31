@@ -31,7 +31,6 @@ export function NewUser() {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async newUser => {
-    console.log(newUser);
     await addUser(newUser);
     history.push('/rooms/new');
   }

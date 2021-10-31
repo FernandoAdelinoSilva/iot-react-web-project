@@ -12,6 +12,7 @@ import { firebase } from '../firebase';
   type UserEmail = string | undefined;
 
   let users : Array<any> = [];
+  let user : any;
 
   export const addUser = async (user : User) => { 
     firebase
@@ -36,13 +37,16 @@ import { firebase } from '../firebase';
     return users;
   };
 
-  /*
-  await addUser({
-			firstName: 'Fernando',
-			lastName: 'Silva',
-			phone: '9966-6655',
-			email: 'fernandoadelinoreact@gmail.com',
-			address: 'St Street',
-			eulaAccepted: true
+  export const getUserPlaces = async (email : UserEmail) => {
+    const collection = await firebase
+		.firestore()
+		.collection('Users')
+		.where('email', "==", email)
+		.get();
+
+		collection.forEach(doc => {
+      user = doc.data();
 		});
-  */
+
+    return user.places;
+  };
