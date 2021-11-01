@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const SidebarLink = styled(Link)`
   display: flex;
@@ -18,7 +19,6 @@ const SidebarLink = styled(Link)`
     border-left: 4px solid #632ce4;
     cursor: pointer;
   }
-
 `;
 
 const SidebarLabel = styled.span`

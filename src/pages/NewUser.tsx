@@ -1,15 +1,13 @@
-import { useHistory } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useForm, SubmitHandler } from "react-hook-form";
-
-import { Button } from '../components/Button';
-
-import { addUser } from '../services/firebase/user.service';
-import { useAuth } from '../hooks/useAuth';
-
 import lamp from '../assets/images/lamp.png';
 import logoImg from '../assets/images/logo3.jpeg';
 import '../styles/auth.scss';
+
+import { useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Button } from '../components/Button';
+import { addUser } from '../services/firebase/user.service';
+import { useAuth } from '../hooks/useAuth';
 
 type FormValues = {
   firstName: string;

@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useState } from "react";
-
 import { getUserPlaces } from "../services/firebase/user.service"; 
 
 type Places = Array<{ Name: string, Id: string }>

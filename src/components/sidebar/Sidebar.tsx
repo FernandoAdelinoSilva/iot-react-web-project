@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
-import { getSidebarData } from './SidebarData';
 import SubMenu from './SubMenu';
-import { IconContext } from 'react-icons/lib';
 import '../../styles/sidebar.scss';
+
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { getSidebarData } from './SidebarData';
+import { IconContext } from 'react-icons/lib';
 import { usePlaces } from '../../hooks/usePlaces';
 
 export const Sidebar = () => {
