@@ -20,10 +20,10 @@ const Places = (props : any) => {
   }, [placeId]);
 
 
-  const onMessageSubmit = (values: any, customParams: any) => {
-    console.log(JSON.stringify(values, null, 2));
-    console.log(customParams);
-    io("http://192.168.15.96:4000").connect().emit("message", {name: 'Esp32', message: 'Test'});
+  const onMessageSubmit = (values: any, name: string) => {
+    const {message} = values;
+
+    io("http://192.168.15.96:4000").connect().emit("message", {name, message});
 	}
 
   return (
@@ -40,33 +40,39 @@ const Places = (props : any) => {
             </Tr>
           </Thead>
         <Tbody>
-          <Tr>
-            <Td>Esp32</Td>
-            <Td>Door Lock</Td>
-            <Td>192.168.15.3</Td>
-            <Td>4002</Td>
-            <Td>
-            <Formik
-              initialValues={{ message: ''}}
-              onSubmit={(values) => {
-                onMessageSubmit(values, 'test');
-              }}
-            >
-              {(props) => (
-                <Form >
-                  <Field name='message'>
-                    {({ field } : any) => (
-                      <FormControl display={'inline-block'}>
-                        <Input {...field} id='message' placeholder='type your message' width={230} />
-                        <Button mt={4} marginTop={0} marginLeft={5} colorScheme='teal' type='submit'> Send </Button>
-                      </FormControl>
+          {devices.map((device : any) => {
+            return (
+            <>
+              <Tr>
+                <Td>{device.Name}</Td>
+                <Td>{device.Type}</Td>
+                <Td>{device.IpAddress}</Td>
+                <Td>{device.TcpPort}</Td>
+                <Td>
+                  <Formik
+                    initialValues={{ message: ''}}
+                    onSubmit={(values) => {
+                      onMessageSubmit(values, device.Name);
+                    }}
+                  >
+                    {(props) => (
+                      <Form >
+                        <Field name='message'>
+                          {({ field } : any) => (
+                            <FormControl display={'inline-block'}>
+                              <Input {...field} id='message' placeholder='type your message' width={230} />
+                              <Button mt={4} marginTop={0} marginLeft={5} colorScheme='teal' type='submit'> Send </Button>
+                            </FormControl>
+                          )}
+                        </Field>
+                      </Form>
                     )}
-                  </Field>
-                </Form>
-              )}
-            </Formik>
-            </Td>
-          </Tr>
+                  </Formik>
+                </Td>
+              </Tr>
+            </>
+            )
+          })} 
         </Tbody>
       </Table>
     </div>
