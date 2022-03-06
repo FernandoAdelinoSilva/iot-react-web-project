@@ -5,26 +5,33 @@ import { useEffect, useState } from 'react';
 import { getDevicesByPlace } from '../services/firebase/device.service';
 import { Table, Thead, Tbody, Tr, Th, Td, Text, FormControl, Input, Button } from '@chakra-ui/react'
 import { Formik, Form, Field } from 'formik';
+import { getPlaceById } from '../services/firebase/place.service';
 
 const Places = (props : any) => {
   const { placeId } = props.match.params;
   const [devices, setDevices] = useState<any>([]);
+  const [place, setPlace] = useState<any>({});
 
   useEffect(() => {
     const getDevices = async (placeId : string) => {
 			let devices = await getDevicesByPlace(placeId);
       setDevices(devices);
-		}
+		};
+
+    const getPlace = async (placeId : string) => {
+			let place = await getPlaceById(placeId);
+      setPlace(place);
+		};
 
     getDevices(placeId);
+    getPlace(placeId);
   }, [placeId]);
 
 
   const onMessageSubmit = (values: any, name: string) => {
     const {message} = values;
-
-    io("http://192.168.18.31:4000").connect().emit("message", {name, message});
-	}
+    io(`http://${place.ServerAddress}:${place.ServerHttpPort}`).connect().emit("message", {name, message});
+	};
 
   return (
     <div className='table'>
@@ -40,7 +47,7 @@ const Places = (props : any) => {
             </Tr>
           </Thead>
         <Tbody>
-          {devices && devices.map((device : any) => {
+          {devices && devices.map((device: any) => {
             return (
             <>
               <Tr>

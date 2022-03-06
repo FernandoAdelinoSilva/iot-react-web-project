@@ -25,7 +25,6 @@ export function NewUser() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async newUser => {
