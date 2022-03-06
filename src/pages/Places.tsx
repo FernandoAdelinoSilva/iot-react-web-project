@@ -23,7 +23,7 @@ const Places = (props : any) => {
   const onMessageSubmit = (values: any, name: string) => {
     const {message} = values;
 
-    io("http://192.168.15.96:4000").connect().emit("message", {name, message});
+    io("http://192.168.18.31:4000").connect().emit("message", {name, message});
 	}
 
   return (
@@ -40,7 +40,7 @@ const Places = (props : any) => {
             </Tr>
           </Thead>
         <Tbody>
-          {devices.map((device : any) => {
+          {devices && devices.map((device : any) => {
             return (
             <>
               <Tr>

@@ -8,6 +8,7 @@ import { NewUser } from './pages/NewUser';
 import { Reports, ReportsOne, ReportsTwo, ReportsThree } from './pages/Reports';
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { UserPlacesContextProvider } from './contexts/UserPlacesContext';
+import Logs from './pages/Logs';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/home/reports/reports2" exact component={ReportsTwo} />
         <Route path="/home/reports/reports3" exact component={ReportsThree} />
         <Route path="/home/places/:placeId" component={Places} />
+        <Route path="/home/logs/:placeId" component={Logs} />
       </UserPlacesContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
