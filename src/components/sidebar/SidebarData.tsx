@@ -1,5 +1,4 @@
 import * as AiIcons from 'react-icons/ai'
-import * as IoIcons from 'react-icons/io'
 import * as RiIcons from 'react-icons/ri'
 
 type Places = Array<{ Name: string, Id: string }>;
@@ -28,18 +27,6 @@ export const getSidebarData = (places: Places) => {
       icon: <AiIcons.AiFillHome />,
       iconClosed: <RiIcons.RiArrowDownSFill />,
       iconOpened: <RiIcons.RiArrowUpSFill />,
-      subNav: [
-        {
-          title: 'Users',
-          path: '/home/overview/users',
-          icon: <IoIcons.IoIosPaper />,
-        },
-        {
-          title: 'Revenue',
-          path: '/home/overview/revenue',
-          icon: <IoIcons.IoIosPaper />,
-        },
-      ]
     },
     {
       title: 'Places',

@@ -78,7 +78,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         email: '',
         signIn: false,
       })
-    }, function(error) {
+    }, function(error: any) {
+      console.log(error);
       throw new Error('Unable to LogOut the user Account.');
     });
   };

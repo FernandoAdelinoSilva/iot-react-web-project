@@ -1,9 +1,13 @@
 import '../styles/sidebar.scss';
+import { useAuth } from '../hooks/useAuth';
 
 const Overview = () => {
+  const { user } = useAuth();
+	console.log(user);
+
   return (
     <div className='home'>
-      <h1>Overview</h1>
+      Overview
     </div>
   )
 }
