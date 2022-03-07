@@ -7,13 +7,15 @@ type Place = { Name: string, Id: string };
 const _setSubNavPlaces = (places: Places, path: string) => {
   var subNavPlaces: { title: string; path: string; icon: JSX.Element }[] = [];
 
-  places.forEach((place: Place) => {
-    subNavPlaces.push({
-      title: place.Name,
-      path: `/home/${path}/${place.Id}`,
-      icon: <AiIcons.AiFillHome />,
-    })
-  });
+  if(places && places[0]) {
+    places.forEach((place: Place) => {
+      subNavPlaces.push({
+        title: place.Name,
+        path: `/home/${path}/${place.Id}`,
+        icon: <AiIcons.AiFillHome />,
+      })
+    });
+  }
 
   return subNavPlaces;
 };

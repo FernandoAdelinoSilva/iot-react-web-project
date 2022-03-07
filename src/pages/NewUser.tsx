@@ -8,6 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from '../components/Button';
 import { addUser } from '../services/firebase/user.service';
 import { useAuth } from '../hooks/useAuth';
+import { useUserInformation } from '../hooks/useUserInformation';
 
 type FormValues = {
   firstName: string;
@@ -21,6 +22,7 @@ type FormValues = {
 export function NewUser() {
 	const history = useHistory();
 	const { user, signOutWithGoogle } = useAuth();
+  const { getUserInformation } = useUserInformation();
 
   const {
     register,
@@ -29,7 +31,8 @@ export function NewUser() {
 
   const onSubmit: SubmitHandler<FormValues> = async newUser => {
     await addUser(newUser);
-    history.push('/rooms/new');
+    await getUserInformation(user.email);
+		history.push('/home/overview');
   }
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import '../styles/table.scss';
 import {io} from "socket.io-client";
 import { useEffect, useState } from 'react';
 import { getDevicesByPlace } from '../services/firebase/device.service';
-import { Table, Thead, Tbody, Tr, Th, Td, Text, FormControl, Input, Button } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tr, Th, Td, Text, FormControl, Input, Button } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { getPlaceById } from '../services/firebase/place.service';
 

@@ -8,11 +8,13 @@ import { useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { usePlaces } from '../hooks/usePlaces';
 import { getUserByEmail } from '../services/firebase/user.service';
+import { useUserInformation } from '../hooks/useUserInformation';
 
 export function Login() {
 	const history = useHistory();
 	const { user, signInWithGoogle } = useAuth();
-	const { GetUserPlaces } = usePlaces();
+	const { getPlaces } = usePlaces();
+	const { getUserInformation } = useUserInformation();
 
 	useEffect(() => {
 		if(!user.signIn)
@@ -21,17 +23,18 @@ export function Login() {
 		const getUser = async () => {
 			let firebaseUser = await getUserByEmail(user.email);
 
-			if(firebaseUser.length > 0) {
-				await GetUserPlaces(user.email);
-				history.push('/home');
+			if(firebaseUser) {
+				await getUserInformation(user.email);
+				await getPlaces(user.email);
+				history.push('/home/overview');
 			} else {
 				history.push('/user/new');
 			}
 		} 
 		getUser();
-	}, [history, user, GetUserPlaces]);
+	}, [history, user, getPlaces, getUserInformation]);
 
-	async function handleCreateRoom() {
+	async function login() {
 		if (!user.id) {
 			await signInWithGoogle();
 		}
@@ -46,7 +49,7 @@ export function Login() {
 					<main>
 						<div className="main-content">
 							<img src={logoImg} alt="SmartHome" />
-							<button onClick={handleCreateRoom} className="sign-in-btn">
+							<button onClick={login} className="sign-in-btn">
 								<img src={googleIconImg} alt="Google" />
 								Sign In with Google
 							</button>

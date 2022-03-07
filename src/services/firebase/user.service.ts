@@ -11,7 +11,6 @@ import { firebase } from '../firebase';
   
   type UserEmail = string | undefined;
 
-  let users : Array<any> = [];
   let user : any;
 
   export const addUser = async (user : User) => { 
@@ -24,17 +23,19 @@ import { firebase } from '../firebase';
   };
 
   export const getUserByEmail = async (email : UserEmail) => {
+    let users : Array<any> = [];
+    
     const collection = await firebase
 		.firestore()
 		.collection('Users')
 		.where('email', "==", email)
-		.get();
+		.get();    
 
 		collection.forEach(doc => {
       users.push(doc.data());
 		});
 
-    return users;
+    return users[0];
   };
 
   export const getUserPlaces = async (email : UserEmail) => {
