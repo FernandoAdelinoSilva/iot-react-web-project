@@ -2,8 +2,25 @@ import { firebase } from '../firebase';
   
 type PlaceId = string | undefined;
 
+type Place = {
+  Address: string,
+  Name: string,
+  ServerAddress: string,
+  ServerHttpPort: string,
+  ServerTcpPort: string,
+  Users: Array<User>
+}; 
+
+type User = {
+  Id: string,
+  FirstName: string,
+  LastName: string,
+  Role: string
+};
+
 export const getPlaceById = async (placeId : PlaceId) => {
-  let places : Array<any> = [];
+  let places: Array<any> = [];
+  let place: Place;
   
   const collection = await firebase
   .firestore()
@@ -15,5 +32,7 @@ export const getPlaceById = async (placeId : PlaceId) => {
     places.push(doc.data());
   });
 
-  return places[0];
+  place = places[0];
+
+  return place;
 };

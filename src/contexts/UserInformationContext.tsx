@@ -7,6 +7,12 @@ type UserInformation = {
   firstName: string,
   lastName: string,
   phone: string,
+  places: Array<Places>
+};
+
+type Places = {
+  Id: string,
+  Name: string
 };
 
 type UserEmail = string | undefined;
